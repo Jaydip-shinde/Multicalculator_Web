@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+        .calculator-container {
+            background-color: #f9fbfe;
+            padding: 20px;
+        }
+        .calculator-heading {
+            color: #264fa2;
+            font-family: "Roboto";
+            font-size: 36px;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .input-label {
+            color: #7b8794;
+            font-family: "Roboto";
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .user-input {
+            height: 40px;
+            width: 100%;
+            border: 1px solid #cbd2d9;
+            border-radius: 4px;
+            padding-left: 12px;
+        }
+        .calculate-button {
+            background-color: #264fa2;
+            color: white;
+            font-family: "Roboto";
+            font-size: 18px;
+            border-radius: 4px;
+            width: 100%;
+        }
+        .error-message {
+            color: #cf1124;
+            font-family: "Roboto";
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="calculator-container">
+        <h1 class="calculator-heading">Perimeter Calculator</h1>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 mb-4">
+                    <p class="input-label mb-2">Select Shape</p>
+                    <select class="user-input" id="shape" onchange="toggleInputs()">
+                        <option value="">-- Select Shape --</option>
+                        <option value="square">Square</option>
+                        <option value="rectangle">Rectangle</option>
+                        <option value="triangle">Triangle</option>
+                        <option value="circle">Circle</option>
+                    </select>
+                </div>
+                <div class="col-12 mb-4" id="inputSquare" style="display: none;">
+                    <p class="input-label mb-2">Side Length (s)</p>
+                    <input type="text" class="user-input" id="squareSide" placeholder="Enter side length" />
+                </div>
+                <div class="col-12 mb-4" id="inputRectangle" style="display: none;">
+                    <p class="input-label mb-2">Length (l)</p>
+                    <input type="text" class="user-input" id="rectangleLength" placeholder="Enter length" />
+                    <p class="input-label mb-2">Width (w)</p>
+                    <input type="text" class="user-input" id="rectangleWidth" placeholder="Enter width" />
+                </div>
+                <div class="col-12 mb-4" id="inputTriangle" style="display: none;">
+                    <p class="input-label mb-2">Side 1 (a)</p>
+                    <input type="text" class="user-input" id="triangleSide1" placeholder="Enter side 1 length" />
+                    <p class="input-label mb-2">Side 2 (b)</p>
+                    <input type="text" class="user-input" id="triangleSide2" placeholder="Enter side 2 length" />
+                    <p class="input-label mb-2">Side 3 (c)</p>
+                    <input type="text" class="user-input" id="triangleSide3" placeholder="Enter side 3 length" />
+                </div>
+                <div class="col-12 mb-4" id="inputCircle" style="display: none;">
+                    <p class="input-label mb-2">Radius (r)</p>
+                    <input type="text" class="user-input" id="circleRadius" placeholder="Enter radius" />
+                </div>
+                <div class="col-12 mb-4">
+                    <p class="input-label mb-2">Perimeter</p>
+                    <input type="text" class="user-input" id="perimeterResult" readonly />
+                </div>
+                <div class="col-12 text-center mt-4">
+                    <button class="btn calculate-button" onclick="calculatePerimeter()">CALCULATE</button>
+                    <p class="error-message" id="errorMessage"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleInputs() {
+            const shape = document.getElementById("shape").value;
+            document.getElementById("inputSquare").style.display = shape === "square" ? "block" : "none";
+            document.getElementById("inputRectangle").style.display = shape === "rectangle" ? "block" : "none";
+            document.getElementById("inputTriangle").style.display = shape === "triangle" ? "block" : "none";
+            document.getElementById("inputCircle").style.display = shape === "circle" ? "block" : "none";
+            document.getElementById("perimeterResult").value = "";
+            document.getElementById("errorMessage").textContent = "";
+        }
+
+        function calculatePerimeter() {
+            const shape = document.getElementById("shape").value;
+            let perimeter;
+            let errorMessage = document.getElementById("errorMessage");
+            errorMessage.textContent = ""; // Clear previous error messages
+
+            switch (shape) {
+                case "square":
+                    const squareSide = parseFloat(document.getElementById("squareSide").value);
+                    if (isNaN(squareSide) || squareSide <= 0) {
+                        errorMessage.textContent = "Please enter a valid positive number for side length.";
+                        return;
+                    }
+                    perimeter = 4 * squareSide; // Perimeter = 4 × s
+                    break;
+
+                case "rectangle":
+                    const rectangleLength = parseFloat(document.getElementById("rectangleLength").value);
+                    const rectangleWidth = parseFloat(document.getElementById("rectangleWidth").value);
+                    if (isNaN(rectangleLength) || rectangleLength <= 0 || 
+                        isNaN(rectangleWidth) || rectangleWidth <= 0) {
+                        errorMessage.textContent = "Please enter valid positive numbers for length and width.";
+                        return;
+                    }
+                    perimeter = 2 * (rectangleLength + rectangleWidth); // Perimeter = 2 × (l + w)
+                    break;
+
+                case "triangle":
+                    const triangleSide1 = parseFloat(document.getElementById("triangleSide1").value);
+                    const triangleSide2 = parseFloat(document.getElementById("triangleSide2").value);
+                    const triangleSide3 = parseFloat(document.getElementById("triangleSide3").value);
+                    if (isNaN(triangleSide1) || triangleSide1 <= 0 || 
+                        isNaN(triangleSide2) || triangleSide2 <= 0 || 
+                        isNaN(triangleSide3) || triangleSide3 <= 0) {
+                        errorMessage.textContent = "Please enter valid positive numbers for all sides.";
+                        return;
+                    }
+                    perimeter = triangleSide1 + triangleSide2 + triangleSide3; // Perimeter = a + b + c
+                    break;
+
+                case "circle":
+                    const circleRadius = parseFloat(document.getElementById("circleRadius").value);
+                    if (isNaN(circleRadius) || circleRadius <= 0) {
+                        errorMessage.textContent = "Please enter a valid positive number for radius.";
+                        return;
+                    }
+                    perimeter = 2 * Math.PI * circleRadius; // Perimeter (Circumference) = 2 × π × r
+                    break;
+
+                default:
+                    errorMessage.textContent = "Please select a shape.";
+                    return;
+            }
+
+            document.getElementById("perimeterResult").value = perimeter.toFixed(2); // Display result with two decimal places
+        }
+    </script>
+</body>
+</html>

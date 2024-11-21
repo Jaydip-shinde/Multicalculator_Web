@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+        .calculator-container {
+            background-color: #f9fbfe;
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+        .calculator-heading {
+            color: #264fa2;
+            font-family: "Roboto";
+            font-size: 48px;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .input-label {
+            color: #7b8794;
+            font-family: "Roboto";
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .user-input {
+            height: 40px;
+            width: 100%;
+            border: 1px solid #cbd2d9;
+            border-radius: 4px;
+            padding-left: 12px;
+        }
+        .calculate-button {
+            background-color: #264fa2;
+            color: white;
+            font-family: "Roboto";
+            font-size: 18px;
+            border-radius: 4px;
+            width: 100%;
+        }
+        .error-message {
+            color: #cf1124;
+            font-family: "Roboto";
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="calculator-container">
+        <h1 class="calculator-heading">Velocity Calculator</h1>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-6 mb-4">
+                    <p class="input-label mb-2">Displacement (meters)</p>
+                    <input type="text" class="user-input" id="displacement" placeholder="Enter displacement in meters" />
+                </div>
+                <div class="col-12 col-md-6 mb-4">
+                    <p class="input-label mb-2">Time (seconds)</p>
+                    <input type="text" class="user-input" id="time" placeholder="Enter time in seconds" />
+                </div>
+                <div class="col-12 col-md-6 mb-4">
+                    <p class="input-label mb-2">Velocity (m/s)</p>
+                    <input type="text" class="user-input" id="velocityResult" readonly />
+                </div>
+                <div class="col-12 text-center mt-4">
+                    <button class="btn calculate-button" onclick="calculateVelocity()">CALCULATE VELOCITY</button>
+                    <p class="error-message" id="errorMessage"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculateVelocity() {
+            let displacement = parseFloat(document.getElementById("displacement").value);
+            let time = parseFloat(document.getElementById("time").value);
+            let velocityResult = document.getElementById("velocityResult");
+            let errorMessage = document.getElementById("errorMessage");
+
+            // Validate inputs
+            if (isNaN(displacement) || displacement <= 0) {
+                errorMessage.textContent = "Please enter a valid positive number for displacement.";
+                velocityResult.value = "";
+                return;
+            }
+            if (isNaN(time) || time <= 0) {
+                errorMessage.textContent = "Please enter a valid positive number for time.";
+                velocityResult.value = "";
+                return;
+            }
+
+            // Clear any previous error message
+            errorMessage.textContent = "";
+
+            // Calculate velocity
+            let velocity = displacement / time;
+            velocityResult.value = velocity.toFixed(2) + " m/s";  // Display result in m/s
+        }
+    </script>
+</body>
+</html>

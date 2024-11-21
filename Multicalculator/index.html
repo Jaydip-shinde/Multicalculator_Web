@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MULTICALCULATOR</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+  <!-- NAVIGATION BAR -->
+    <nav class="navbar">
+        <div id="logo">MULTICALCULATOR</div>
+        <ul class="nav-links">
+          <a href="#">Home<span></span></a>
+          <a href="#calculator">Calculators<span></span></a>
+          <a href="#convertor">Convertors<span></span></a>
+          <a href="#formula" class="scroll-link">Formulas<span></span></a>
+        </ul>
+        <div class="hamburger">
+          <div class="line"></div>
+          <div class="line"></div>
+          <div class="line"></div>
+        </div>
+    </nav>
+
+<!-- ANIMATED WELCOME TO MULTI......... -->
+    <div class="animated-sentence">
+        <!-- WELCOME -->
+        <span class="letter" style="color: white;">W</span>
+        <span class="letter" style="color: white;">E</span>
+        <span class="letter" style="color: white;">L</span>
+        <span class="letter" style="color: white;">C</span>
+        <span class="letter" style="color: white;">O</span>
+        <span class="letter" style="color: white;">M</span>
+        <span class="letter" style="color: white;">E</span>
+        <!-- Space -->
+        <span class="space"></span>
+        <!-- TO -->
+        <span class="letter" style="color: white;">T</span>
+        <span class="letter" style="color: white;">O</span>
+        <!-- Space -->
+        <span class="space" ></span>
+        <!-- MULTICALCULATOR -->
+        <span class="letter">M</span>
+        <span class="letter">U</span>
+        <span class="letter">L</span>
+        <span class="letter">T</span>
+        <span class="letter">I</span>
+        <span class="letter">C</span>
+        <span class="letter">A</span>
+        <span class="letter">L</span>
+        <span class="letter">C</span>
+        <span class="letter">U</span>
+        <span class="letter">L</span>
+        <span class="letter">A</span>
+        <span class="letter">T</span>
+        <span class="letter">O</span>
+        <span class="letter">R...</span>
+      </div>
+
+<!-- CAROSEL IMAGES -->
+<div class="carousel-container">
+  <div class="carousel">
+    <div class="quote-slide">
+      <p class="quote">"The best way to predict the future is to invent it."</p>
+      <p class="author">- Alan Kay</p>
+    </div>
+    <div class="quote-slide">
+      <p class="quote">"Success usually comes to those who are too busy to be looking for it."</p>
+      <p class="author">- Henry David Thoreau</p>
+    </div>
+    <div class="quote-slide">
+      <p class="quote">"Don’t be afraid to give up the good to go for the great."</p>
+      <p class="author">- John D. Rockefeller</p>
+    </div>
+    <div class="quote-slide">
+      <p class="quote">"The best way to predict the future is to invent it."</p>
+      <p class="author">- Alan Kay</p>
+    </div>
+    <div class="quote-slide">
+      <p class="quote">"Success usually comes to those who are too busy to be looking for it."</p>
+      <p class="author">- Henry David Thoreau</p>
+    </div>
+    <div class="quote-slide">
+      <p class="quote">"Don’t be afraid to give up the good to go for the great."</p>
+      <p class="author">- John D. Rockefeller</p>
+    </div>
+  </div>
+</div>
+
+<div id="calculator"></div>
+<div class="footer-top-line"></div>
+
+<div class="calculators-heading">
+  <h2>CALCULATORS</h2>
+</div>
+<!-- FIRST TWO CARDS -->
+    <div class="cards-container">
+        <div class="card">
+          <h2><b>ARITHMATIC</b></h2>
+          <p>Arithmatic Calulations like Add, Sub, Div etc...</p>
+          <button><a href="Arithmatic/arithmatic.html" style="color: black;">GO</a></button>
+        </div>
+        <div class="card">
+          <h2><b>SCIENTIFIC</b></h2>
+          <p>Scientific Calulations like Sin, Cos, Tan etc...</p>
+          <button><a href="Scientific/scientific.html" style="color: black;">GO</a></button>
+        </div>
+    </div>
+
+
+<!--DRODOWN CARDS first  -->
+<div class="custom-container">
+  <!-- Existing Cards -->
+  <div class="custom-card cc1">
+      <h2><b>FINANCE CALCULATIORS</b></h2>
+      <p>Financial Calulations like Simple Interest, SIP, EMI etc...</p>
+      <button id="button-unique-1" class="custom-button">EXPLORE...</button>
+      <div id="menu-unique-1" class="custom-dropdown">
+          <div class="custom-option"><a href="Finance/simpleInt.html">Simple Interest</a></div>
+          <div class="custom-option"><a href="Finance/compound.html">Compound Interest</a></div>
+          <div class="custom-option"><a href="Finance/sip.html">SIP</a></div>
+          <div class="custom-option"><a href="Finance/EMI.html">EMI</a></div>
+          <div class="custom-option"><a href="Finance/Fd.html">Fixed Diposites</a></div>
+      </div>
+  </div>
+  <div class="custom-card cc2">
+      <h2><b>GEOMETRIC CALCULATORS</b></h2>
+      <p>Geometric Calculations like Area, Volume, Perimeter etc...</p>
+      <button id="button-unique-2" class="custom-button">EXPLORE...</button>
+      <div id="menu-unique-2" class="custom-dropdown">
+          <div class="custom-option"><a href="Geometric/area.html">Area</a></div>
+          <div class="custom-option"><a href="Geometric/volum.html">Volume</a></div>
+          <div class="custom-option"><a href="Geometric/perimeter.html">Perimeter</a></div>
+          <div class="custom-option"><a href="Geometric/circumferance.html">Circumferance of the circle</a></div>
+      </div>
+  </div>
+</div>
+<div class="custom-container ">
+    <!-- New Cards Below -->
+    <div class="custom-card cc3"3>
+      <h2><b>PHYSICS CALCULATORS</b></h2>
+      <p>Calculations like Force, Energy, Work etc...</p>
+      <button id="button-unique-3" class="custom-button">EXPLORE...</button>
+      <div id="menu-unique-3" class="custom-dropdown">
+          <div class="custom-option"><a href="Physics/force.html">Force</a></div>
+          <div class="custom-option"><a href="Physics/energy.html">Energy</a></div>
+          <div class="custom-option"><a href="Physics/work.html">Work</a></div>
+          <div class="custom-option"><a href="Physics/wavespeed.html">Wavespeed</a></div>
+          <div class="custom-option"><a href="Physics/velocity.html">Velocity</a></div>
+          <div class="custom-option"><a href="Physics/power.html">Power</a></div>
+      </div>
+  </div>
+
+  <div class="custom-card cc4">
+    <h2><b>CHEMISTRY CALCULATORS</b></h2>
+    <p>Calculations like Molality, Molarity, Heat etc...</p>
+      <button id="button-unique-4" class="custom-button">EXPLORE...</button>
+      <div id="menu-unique-4" class="custom-dropdown">
+          <div class="custom-option"><a href="Chemistry/molality.html">Molality</a></div>
+          <div class="custom-option"><a href="Chemistry/molarity.html">Molarity</a></div>
+          <div class="custom-option"><a href="Chemistry/Per_compodsition.html">% Composition</a></div>
+          <div class="custom-option"><a href="Chemistry/Per_yeild.html">% Yeild</a></div>
+          <div class="custom-option"><a href="Chemistry/enthalpy.html">Enthalpy</a></div>
+      </div>
+  </div>
+</div>
+<div id="convertor"></div>
+<div class="calculators-heading">
+  <h2>CONVERTORS</h2>
+</div>
+<!-- CONVERTOR CONTAINERS -->
+    <div class="cards-container">
+        <div class="card c1">
+          <h2><b>CURRENCY CONVERTOR</b></h2>
+          <p>Convert currency from one form one to another in real time...</p>
+          <button><a href="Convertors/currency.html" style="color: black;">CONVERT...</a></button>
+        </div>
+        <div class="card c2">
+          <h2><b>UNIT CONVERTOR</b></h2>
+          <p>Convert unit from one form one to another in real time...</p>
+          <button><a href="Convertors/unit.html " style="color: black;">CONVERT...</a></button>
+        </div>
+    </div>
+<div id="formula"></div>
+<div class="calculators-heading">
+  <h2>FORMULAS</h2>
+</div>
+<!--FORMULAS CONTAINER  -->
+    <div class="cards-container">
+        <div class="card">
+          <h2><b>FORMULAS</b></h2>
+          <p>Here you get the list of formulas...</p>
+          <button><a href="formulas.html" style="color: black;">SEE...</a></button>
+        </div>
+    </div> 
+    
+<div class="footer-top-line"></div>
+    
+    <!-- Sliding Logos -->
+    <div class="symbols-section">
+        <div class="sliding-symbols">
+          <div class="symbols-wrapper">
+            <div class="symbol">SIP</div>
+            <div class="symbol">EMI</div>
+            <div class="symbol">SI</div>
+            <div class="symbol">AREA</div>
+            <div class="symbol">CI</div>
+            <div class="symbol">VOLUME</div>
+            <div class="symbol">ADDITION</div>
+            <div class="symbol">ENERGY</div>
+            <div class="symbol">SUBTRACTION</div>
+            <div class="symbol">MOLALITY</div>
+            <div class="symbol">FORCE</div>
+            <div class="symbol">DIVISION</div>
+          </div>
+        </div>
+      </div>
+      
+  <!--FOOTER SECTION  -->
+  <footer class="footer">
+    <div class="footer-container">
+      <!-- About Section -->
+      <div class="footer-about">
+        <h3>About Us</h3>
+        <p>
+          Creative3D is your go-to platform for design inspiration, problem-solving, and innovative solutions. Join us in creating a world of endless possibilities.
+        </p>
+      </div>
+  
+      <div class="footer-content">
+        <!-- Contact Us Section -->
+        <div class="footer-links">
+          <h3>Contact Us</h3>
+          <form class="ajax-form" data-type="contact">
+            <input type="text" name="name" placeholder="Your Name" required>
+            <textarea name="message" placeholder="Write your contact message" required></textarea>
+            <button type="submit">Submit</button>
+            <div class="form-response"></div>
+          </form>
+        </div>
+  
+        <!-- Feedback Section -->
+        <div class="footer-links">
+          <h3>Feedback</h3>
+          <form class="ajax-form" data-type="feedback">
+            <input type="text" name="name" placeholder="Your Name" required>
+            <textarea name="message" placeholder="Write your feedback" required></textarea>
+            <button type="submit">Submit</button>
+            <div class="form-response"></div>
+          </form>
+        </div>
+  
+        <!-- Queries Section -->
+        <div class="footer-links">
+          <h3>Queries</h3>
+          <form class="ajax-form" data-type="queries">
+            <input type="text" name="name" placeholder="Your Name" required>
+            <textarea name="message" placeholder="Write your query" required></textarea>
+            <button type="submit">Submit</button>
+            <div class="form-response"></div>
+          </form>
+        </div>
+  
+        <!-- Suggestions Section -->
+        <div class="footer-links">
+          <h3>Suggestions</h3>
+          <form class="ajax-form" data-type="suggestions">
+            <input type="text" name="name" placeholder="Your Name" required>
+            <textarea name="message" placeholder="Write your suggestion" required></textarea>
+            <button type="submit">Submit</button>
+            <div class="form-response"></div>
+          </form>
+        </div>
+      </div>
+  
+      <!-- Social Media Section -->
+      <div class="footer-social">
+        <h3>Follow Us</h3>
+        <div class="social-icons">
+          <a href="https://www.instagram.com" target="_blank" class="icon instagram" aria-label="Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="https://twitter.com" target="_blank" class="icon twitter" aria-label="Twitter">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="https://www.facebook.com" target="_blank" class="icon facebook" aria-label="Facebook">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="https://www.linkedin.com" target="_blank" class="icon linkedin" aria-label="LinkedIn">
+            <i class="fab fa-linkedin-in"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Footer Bottom -->
+    <div class="footer-bottom">
+      <p>© 2024 Creative3D. All Rights Reserved. | Designed with ❤️</p>
+    </div>
+  </footer>
+  
+  
+  
+      <script src="script.js"></script>
+
+    <body>
+</html>

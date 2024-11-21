@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+        .calculator-container {
+            background-color: #f9fbfe;
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+        .calculator-heading {
+            color: #264fa2;
+            font-family: "Roboto";
+            font-size: 48px;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .input-label {
+            color: #7b8794;
+            font-family: "Roboto";
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .user-input {
+            height: 40px;
+            width: 100%;
+            border: 1px solid #cbd2d9;
+            border-radius: 4px;
+            padding-left: 12px;
+        }
+        .calculate-button {
+            background-color: #264fa2;
+            color: white;
+            font-family: "Roboto";
+            font-size: 18px;
+            border-radius: 4px;
+            width: 100%;
+        }
+        .error-message {
+            color: #cf1124;
+            font-family: "Roboto";
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="calculator-container">
+        <h1 class="calculator-heading">Molality Calculator</h1>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-6 mb-4">
+                    <p class="input-label mb-2">Moles of Solute (mol)</p>
+                    <input type="text" class="user-input" id="molesSolute" placeholder="Enter moles of solute" />
+                </div>
+                <div class="col-12 col-md-6 mb-4">
+                    <p class="input-label mb-2">Mass of Solvent (kg)</p>
+                    <input type="text" class="user-input" id="massSolvent" placeholder="Enter mass of solvent in kg" />
+                </div>
+                <div class="col-12 col-md-6 mb-4">
+                    <p class="input-label mb-2">Molality (mol/kg)</p>
+                    <input type="text" class="user-input" id="molalityResult" readonly />
+                </div>
+                <div class="col-12 text-center mt-4">
+                    <button class="btn calculate-button" onclick="calculateMolality()">CALCULATE MOLALITY</button>
+                    <p class="error-message" id="errorMessage"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculateMolality() {
+            let molesSolute = parseFloat(document.getElementById("molesSolute").value);
+            let massSolvent = parseFloat(document.getElementById("massSolvent").value);
+            let molalityResult = document.getElementById("molalityResult");
+            let errorMessage = document.getElementById("errorMessage");
+
+            // Validate inputs
+            if (isNaN(molesSolute) || molesSolute <= 0) {
+                errorMessage.textContent = "Please enter a valid positive number for moles of solute.";
+                molalityResult.value = "";
+                return;
+            }
+            if (isNaN(massSolvent) || massSolvent <= 0) {
+                errorMessage.textContent = "Please enter a valid positive number for mass of solvent.";
+                molalityResult.value = "";
+                return;
+            }
+
+            // Clear any previous error message
+            errorMessage.textContent = "";
+
+            // Calculate molality
+            let molality = molesSolute / massSolvent;
+            molalityResult.value = molality.toFixed(2) + " mol/kg";  // Display result in mol/kg
+        }
+    </script>
+</body>
+</html>

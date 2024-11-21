@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+        .calculator-container {
+            background-color: #f9fbfe;
+            padding: 20px;
+        }
+        .calculator-heading {
+            color: #264fa2;
+            font-family: "Roboto";
+            font-size: 36px;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .input-label {
+            color: #7b8794;
+            font-family: "Roboto";
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .user-input {
+            height: 40px;
+            width: 100%;
+            border: 1px solid #cbd2d9;
+            border-radius: 4px;
+            padding-left: 12px;
+        }
+        .calculate-button {
+            background-color: #264fa2;
+            color: white;
+            font-family: "Roboto";
+            font-size: 18px;
+            border-radius: 4px;
+            width: 100%;
+        }
+        .error-message {
+            color: #cf1124;
+            font-family: "Roboto";
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="calculator-container">
+        <h1 class="calculator-heading">EMI Calculator</h1>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-6 mb-4">
+                    <p class="input-label mb-2">Loan Amount (Principal)</p>
+                    <input type="text" class="user-input" id="loanAmount" placeholder="Enter loan amount" />
+                </div>
+                <div class="col-12 col-md-6 mb-4">
+                    <p class="input-label mb-2">Annual Interest Rate (%)</p>
+                    <input type="text" class="user-input" id="annualRate" placeholder="Enter annual interest rate" />
+                </div>
+                <div class="col-12 col-md-6 mb-4">
+                    <p class="input-label mb-2">Loan Tenure (Years)</p>
+                    <input type="text" class="user-input" id="loanTenure" placeholder="Enter tenure in years" />
+                </div>
+                <div class="col-12 mb-4">
+                    <p class="input-label mb-2">Monthly EMI</p>
+                    <input type="text" class="user-input" id="emiResult" readonly />
+                </div>
+                <div class="col-12 text-center mt-4">
+                    <button class="btn calculate-button" onclick="calculateEMI()">CALCULATE</button>
+                    <p class="error-message" id="errorMessage"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculateEMI() {
+            let loanAmount = parseFloat(document.getElementById("loanAmount").value);
+            let annualRate = parseFloat(document.getElementById("annualRate").value);
+            let loanTenure = parseFloat(document.getElementById("loanTenure").value);
+            let emiResultField = document.getElementById("emiResult");
+            let errorMessage = document.getElementById("errorMessage");
+
+            // Validate inputs
+            if (isNaN(loanAmount) || loanAmount <= 0) {
+                errorMessage.textContent = "Please enter a valid positive number for loan amount.";
+                emiResultField.value = "";
+                return;
+            }
+            if (isNaN(annualRate) || annualRate < 0) {
+                errorMessage.textContent = "Please enter a valid number for annual interest rate.";
+                emiResultField.value = "";
+                return;
+            }
+            if (isNaN(loanTenure) || loanTenure <= 0) {
+                errorMessage.textContent = "Please enter a valid positive number for loan tenure.";
+                emiResultField.value = "";
+                return;
+            }
+
+            // Clear any previous error message
+            errorMessage.textContent = "";
+
+            // Calculate EMI
+            let monthlyRate = annualRate / (12 * 100);  // Monthly interest rate
+            let numberOfMonths = loanTenure * 12;        // Total number of payments (months)
+            let emi = (loanAmount * monthlyRate * Math.pow(1 + monthlyRate, numberOfMonths)) / (Math.pow(1 + monthlyRate, numberOfMonths) - 1);
+
+            emiResultField.value = emi.toFixed(2);  // Display result with two decimal places
+        }
+    </script>
+</body>
+</html>

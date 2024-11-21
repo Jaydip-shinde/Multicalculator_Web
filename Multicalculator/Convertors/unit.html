@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Converter</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #f1f1f1;
+            font-family: "Roboto", sans-serif;
+        }
+        .container {
+            margin-top: 50px;
+            max-width: 500px;
+        }
+        .unit-converter {
+            background-color: #121212;
+            padding: 30px;
+            border-radius: 10px;
+        }
+        .form-control {
+            background-color: #333;
+            border: 1px solid #555;
+            color: #fff;
+        }
+        .btn {
+            background-color: #66FCF1;
+            color: #0B0C10;
+        }
+        .btn:hover {
+            background-color: #45A29E;
+        }
+        .error-message {
+            color: #cf1124;
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 10px;
+            text-align: center;
+        }
+        #result {
+            background-color: #333;
+            color: #66FCF1;  /* Set the color of the result text to light cyan */
+            border: 1px solid #555;
+            padding: 10px;
+            font-size: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="unit-converter">
+            <h2 class="text-center">Unit Converter</h2>
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select class="form-control" id="category" onchange="updateUnits()">
+                    <option value="length">Length</option>
+                    <option value="weight">Weight</option>
+                    <option value="temperature">Temperature</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="fromUnit">From Unit</label>
+                <select class="form-control" id="fromUnit"></select>
+            </div>
+
+            <div class="form-group">
+                <label for="toUnit">To Unit</label>
+                <select class="form-control" id="toUnit"></select>
+            </div>
+
+            <div class="form-group">
+                <label for="amount">Amount</label>
+                <input type="number" id="amount" class="form-control" placeholder="Enter amount" />
+            </div>
+            <button class="btn btn-block" onclick="convertUnit()">Convert</button>
+
+            <div class="error-message" id="errorMessage"></div>
+
+            <div class="form-group mt-3">
+                <label for="result">Converted Amount</label>
+                <input type="text" id="result" class="form-control" readonly />
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const units = {
+            length: {
+                units: ['Meters', 'Kilometers', 'Miles', 'Feet', 'Inches'],
+                conversions: {
+                    'Meters': 1,
+                    'Kilometers': 0.001,
+                    'Miles': 0.000621371,
+                    'Feet': 3.28084,
+                    'Inches': 39.3701
+                }
+            },
+            weight: {
+                units: ['Kilograms', 'Grams', 'Pounds', 'Ounces'],
+                conversions: {
+                    'Kilograms': 1,
+                    'Grams': 1000,
+                    'Pounds': 2.20462,
+                    'Ounces': 35.274
+                }
+            },
+            temperature: {
+                units: ['Celsius', 'Fahrenheit', 'Kelvin'],
+                conversions: {
+                    'Celsius': {
+                        'Fahrenheit': (value) => (value * 9/5) + 32,
+                        'Kelvin': (value) => value + 273.15
+                    },
+                    'Fahrenheit': {
+                        'Celsius': (value) => (value - 32) * 5/9,
+                        'Kelvin': (value) => (value - 32) * 5/9 + 273.15
+                    },
+                    'Kelvin': {
+                        'Celsius': (value) => value - 273.15,
+                        'Fahrenheit': (value) => (value - 273.15) * 9/5 + 32
+                    }
+                }
+            }
+        };
+
+        // Initialize with the 'length' category
+        updateUnits();
+
+        function updateUnits() {
+            const category = document.getElementById('category').value;
+            const fromUnitSelect = document.getElementById('fromUnit');
+            const toUnitSelect = document.getElementById('toUnit');
+
+            // Clear existing options
+            fromUnitSelect.innerHTML = '';
+            toUnitSelect.innerHTML = '';
+
+            // Get the units for the selected category
+            const selectedUnits = units[category].units;
+            selectedUnits.forEach(unit => {
+                const option1 = document.createElement('option');
+                option1.value = unit;
+                option1.textContent = unit;
+                fromUnitSelect.appendChild(option1);
+
+                const option2 = document.createElement('option');
+                option2.value = unit;
+                option2.textContent = unit;
+                toUnitSelect.appendChild(option2);
+            });
+
+            // Set default selections
+            fromUnitSelect.value = selectedUnits[0];
+            toUnitSelect.value = selectedUnits[1];
+        }
+
+        function convertUnit() {
+            const category = document.getElementById('category').value;
+            const fromUnit = document.getElementById('fromUnit').value;
+            const toUnit = document.getElementById('toUnit').value;
+            const amount = parseFloat(document.getElementById('amount').value);
+            const resultField = document.getElementById('result');
+            const errorMessage = document.getElementById('errorMessage');
+
+            // Validate input
+            if (isNaN(amount) || amount <= 0) {
+                errorMessage.textContent = 'Please enter a valid amount.';
+                resultField.value = '';
+                return;
+            }
+
+            errorMessage.textContent = ''; // Clear error message
+
+            let result;
+            if (category === 'temperature') {
+                // Handle temperature conversion using specific formulas
+                result = units[category].conversions[fromUnit][toUnit](amount);
+            } else {
+                // Handle length and weight conversions using multiplication
+                const conversionRate = units[category].conversions[fromUnit] / units[category].conversions[toUnit];
+                result = amount * conversionRate;
+            }
+
+            // Display the result
+            resultField.value = result.toFixed(2);
+        }
+    </script>
+</body>
+</html>

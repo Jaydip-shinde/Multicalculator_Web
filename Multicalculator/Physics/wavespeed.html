@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+        .calculator-container {
+            background-color: #f9fbfe;
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+        .calculator-heading {
+            color: #264fa2;
+            font-family: "Roboto";
+            font-size: 48px;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .input-label {
+            color: #7b8794;
+            font-family: "Roboto";
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .user-input {
+            height: 40px;
+            width: 100%;
+            border: 1px solid #cbd2d9;
+            border-radius: 4px;
+            padding-left: 12px;
+        }
+        .calculate-button {
+            background-color: #264fa2;
+            color: white;
+            font-family: "Roboto";
+            font-size: 18px;
+            border-radius: 4px;
+            width: 100%;
+        }
+        .error-message {
+            color: #cf1124;
+            font-family: "Roboto";
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="calculator-container">
+        <h1 class="calculator-heading">Wave Speed Calculator</h1>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-6 mb-4">
+                    <p class="input-label mb-2">Frequency (Hertz)</p>
+                    <input type="text" class="user-input" id="frequency" placeholder="Enter frequency in Hz" />
+                </div>
+                <div class="col-12 col-md-6 mb-4">
+                    <p class="input-label mb-2">Wavelength (Meters)</p>
+                    <input type="text" class="user-input" id="wavelength" placeholder="Enter wavelength in meters" />
+                </div>
+                <div class="col-12 col-md-6 mb-4">
+                    <p class="input-label mb-2">Wave Speed (m/s)</p>
+                    <input type="text" class="user-input" id="waveSpeedResult" readonly />
+                </div>
+                <div class="col-12 text-center mt-4">
+                    <button class="btn calculate-button" onclick="calculateWaveSpeed()">CALCULATE WAVE SPEED</button>
+                    <p class="error-message" id="errorMessage"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculateWaveSpeed() {
+            let frequency = parseFloat(document.getElementById("frequency").value);
+            let wavelength = parseFloat(document.getElementById("wavelength").value);
+            let waveSpeedResult = document.getElementById("waveSpeedResult");
+            let errorMessage = document.getElementById("errorMessage");
+
+            // Validate inputs
+            if (isNaN(frequency) || frequency <= 0) {
+                errorMessage.textContent = "Please enter a valid positive number for frequency.";
+                waveSpeedResult.value = "";
+                return;
+            }
+            if (isNaN(wavelength) || wavelength <= 0) {
+                errorMessage.textContent = "Please enter a valid positive number for wavelength.";
+                waveSpeedResult.value = "";
+                return;
+            }
+
+            // Clear any previous error message
+            errorMessage.textContent = "";
+
+            // Calculate wave speed
+            let waveSpeed = frequency * wavelength;
+            waveSpeedResult.value = waveSpeed.toFixed(2) + " m/s";  // Display result in m/s
+        }
+    </script>
+</body>
+</html>

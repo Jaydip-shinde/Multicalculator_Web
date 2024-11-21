@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+        .calculator-container {
+            background-color: #f9fbfe;
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+        .calculator-heading {
+            color: #264fa2;
+            font-family: "Roboto";
+            font-size: 48px;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .input-label {
+            color: #7b8794;
+            font-family: "Roboto";
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .user-input {
+            height: 40px;
+            width: 100%;
+            border: 1px solid #cbd2d9;
+            border-radius: 4px;
+            padding-left: 12px;
+        }
+        .calculate-button {
+            background-color: #264fa2;
+            color: white;
+            font-family: "Roboto";
+            font-size: 18px;
+            border-radius: 4px;
+            width: 100%;
+        }
+        .error-message {
+            color: #cf1124;
+            font-family: "Roboto";
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="calculator-container">
+        <h1 class="calculator-heading">Percentage Yield Calculator</h1>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-6 mb-4">
+                    <p class="input-label mb-2">Actual Yield (g)</p>
+                    <input type="text" class="user-input" id="actualYield" placeholder="Enter actual yield in grams" />
+                </div>
+                <div class="col-12 col-md-6 mb-4">
+                    <p class="input-label mb-2">Theoretical Yield (g)</p>
+                    <input type="text" class="user-input" id="theoreticalYield" placeholder="Enter theoretical yield in grams" />
+                </div>
+                <div class="col-12 col-md-6 mb-4">
+                    <p class="input-label mb-2">Percentage Yield (%)</p>
+                    <input type="text" class="user-input" id="percentageYield" readonly />
+                </div>
+                <div class="col-12 text-center mt-4">
+                    <button class="btn calculate-button" onclick="calculatePercentageYield()">CALCULATE YIELD</button>
+                    <p class="error-message" id="errorMessage"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculatePercentageYield() {
+            let actualYield = parseFloat(document.getElementById("actualYield").value);
+            let theoreticalYield = parseFloat(document.getElementById("theoreticalYield").value);
+            let percentageYieldField = document.getElementById("percentageYield");
+            let errorMessage = document.getElementById("errorMessage");
+
+            // Validate inputs
+            if (isNaN(actualYield) || actualYield < 0) {
+                errorMessage.textContent = "Please enter a valid positive number for actual yield.";
+                percentageYieldField.value = "";
+                return;
+            }
+            if (isNaN(theoreticalYield) || theoreticalYield <= 0) {
+                errorMessage.textContent = "Please enter a valid positive number for theoretical yield.";
+                percentageYieldField.value = "";
+                return;
+            }
+
+            // Clear any previous error message
+            errorMessage.textContent = "";
+
+            // Calculate percentage yield
+            let percentageYield = (actualYield / theoreticalYield) * 100;
+            percentageYieldField.value = percentageYield.toFixed(2) + " %";  // Display result in percentage
+        }
+    </script>
+</body>
+</html>

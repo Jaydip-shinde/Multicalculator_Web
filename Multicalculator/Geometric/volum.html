@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+        .calculator-container {
+            background-color: #f9fbfe;
+            padding: 20px;
+        }
+        .calculator-heading {
+            color: #264fa2;
+            font-family: "Roboto";
+            font-size: 36px;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .input-label {
+            color: #7b8794;
+            font-family: "Roboto";
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .user-input {
+            height: 40px;
+            width: 100%;
+            border: 1px solid #cbd2d9;
+            border-radius: 4px;
+            padding-left: 12px;
+        }
+        .calculate-button {
+            background-color: #264fa2;
+            color: white;
+            font-family: "Roboto";
+            font-size: 18px;
+            border-radius: 4px;
+            width: 100%;
+        }
+        .error-message {
+            color: #cf1124;
+            font-family: "Roboto";
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="calculator-container">
+        <h1 class="calculator-heading">Volume Calculator</h1>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 mb-4">
+                    <p class="input-label mb-2">Select Shape</p>
+                    <select class="user-input" id="shape" onchange="toggleInputs()">
+                        <option value="">-- Select Shape --</option>
+                        <option value="cube">Cube</option>
+                        <option value="rectangularPrism">Rectangular Prism</option>
+                        <option value="cylinder">Cylinder</option>
+                        <option value="sphere">Sphere</option>
+                    </select>
+                </div>
+                <div class="col-12 mb-4" id="inputCube" style="display: none;">
+                    <p class="input-label mb-2">Side Length (s)</p>
+                    <input type="text" class="user-input" id="cubeSide" placeholder="Enter side length" />
+                </div>
+                <div class="col-12 mb-4" id="inputRectangularPrism" style="display: none;">
+                    <p class="input-label mb-2">Length (l)</p>
+                    <input type="text" class="user-input" id="rectangularLength" placeholder="Enter length" />
+                    <p class="input-label mb-2">Width (w)</p>
+                    <input type="text" class="user-input" id="rectangularWidth" placeholder="Enter width" />
+                    <p class="input-label mb-2">Height (h)</p>
+                    <input type="text" class="user-input" id="rectangularHeight" placeholder="Enter height" />
+                </div>
+                <div class="col-12 mb-4" id="inputCylinder" style="display: none;">
+                    <p class="input-label mb-2">Radius (r)</p>
+                    <input type="text" class="user-input" id="cylinderRadius" placeholder="Enter radius" />
+                    <p class="input-label mb-2">Height (h)</p>
+                    <input type="text" class="user-input" id="cylinderHeight" placeholder="Enter height" />
+                </div>
+                <div class="col-12 mb-4" id="inputSphere" style="display: none;">
+                    <p class="input-label mb-2">Radius (r)</p>
+                    <input type="text" class="user-input" id="sphereRadius" placeholder="Enter radius" />
+                </div>
+                <div class="col-12 mb-4">
+                    <p class="input-label mb-2">Volume</p>
+                    <input type="text" class="user-input" id="volumeResult" readonly />
+                </div>
+                <div class="col-12 text-center mt-4">
+                    <button class="btn calculate-button" onclick="calculateVolume()">CALCULATE</button>
+                    <p class="error-message" id="errorMessage"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleInputs() {
+            const shape = document.getElementById("shape").value;
+            document.getElementById("inputCube").style.display = shape === "cube" ? "block" : "none";
+            document.getElementById("inputRectangularPrism").style.display = shape === "rectangularPrism" ? "block" : "none";
+            document.getElementById("inputCylinder").style.display = shape === "cylinder" ? "block" : "none";
+            document.getElementById("inputSphere").style.display = shape === "sphere" ? "block" : "none";
+            document.getElementById("volumeResult").value = "";
+            document.getElementById("errorMessage").textContent = "";
+        }
+
+        function calculateVolume() {
+            const shape = document.getElementById("shape").value;
+            let volume;
+            let errorMessage = document.getElementById("errorMessage");
+            errorMessage.textContent = ""; // Clear previous error messages
+
+            switch (shape) {
+                case "cube":
+                    const cubeSide = parseFloat(document.getElementById("cubeSide").value);
+                    if (isNaN(cubeSide) || cubeSide <= 0) {
+                        errorMessage.textContent = "Please enter a valid positive number for side length.";
+                        return;
+                    }
+                    volume = Math.pow(cubeSide, 3); // Volume = s³
+                    break;
+
+                case "rectangularPrism":
+                    const rectangularLength = parseFloat(document.getElementById("rectangularLength").value);
+                    const rectangularWidth = parseFloat(document.getElementById("rectangularWidth").value);
+                    const rectangularHeight = parseFloat(document.getElementById("rectangularHeight").value);
+                    if (isNaN(rectangularLength) || rectangularLength <= 0 || 
+                        isNaN(rectangularWidth) || rectangularWidth <= 0 || 
+                        isNaN(rectangularHeight) || rectangularHeight <= 0) {
+                        errorMessage.textContent = "Please enter valid positive numbers for length, width, and height.";
+                        return;
+                    }
+                    volume = rectangularLength * rectangularWidth * rectangularHeight; // Volume = l × w × h
+                    break;
+
+                case "cylinder":
+                    const cylinderRadius = parseFloat(document.getElementById("cylinderRadius").value);
+                    const cylinderHeight = parseFloat(document.getElementById("cylinderHeight").value);
+                    if (isNaN(cylinderRadius) || cylinderRadius <= 0 || 
+                        isNaN(cylinderHeight) || cylinderHeight <= 0) {
+                        errorMessage.textContent = "Please enter valid positive numbers for radius and height.";
+                        return;
+                    }
+                    volume = Math.PI * Math.pow(cylinderRadius, 2) * cylinderHeight; // Volume = π × r² × h
+                    break;
+
+                case "sphere":
+                    const sphereRadius = parseFloat(document.getElementById("sphereRadius").value);
+                    if (isNaN(sphereRadius) || sphereRadius <= 0) {
+                        errorMessage.textContent = "Please enter a valid positive number for radius.";
+                        return;
+                    }
+                    volume = (4/3) * Math.PI * Math.pow(sphereRadius, 3); // Volume = (4/3) × π × r³
+                    break;
+
+                default:
+                    errorMessage.textContent = "Please select a shape.";
+                    return;
+            }
+
+            document.getElementById("volumeResult").value = volume.toFixed(2); // Display result with two decimal places
+        }
+    </script>
+</body>
+</html>
