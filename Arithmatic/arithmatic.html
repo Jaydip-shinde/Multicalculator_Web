@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BODMAS Calculator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+        body {
+            background-color: #1a1a1a;
+            color: #f1f1f1;
+            font-family: "Roboto", sans-serif;
+        }
+        .calculator-container {
+            background-color: #121212;
+            border-radius: 10px;
+            padding: 20px;
+            max-width: 300px;
+            margin: 50px auto;
+            text-align: center;
+        }
+        .calculator-screen {
+            background-color: #333333;
+            color: #f1f1f1;
+            border: none;
+            width: 100%;
+            height: 60px;
+            text-align: right;
+            font-size: 24px;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .calculator-button {
+            background-color: #45A29E;
+            color: #0B0C10;
+            border-radius: 4px;
+            font-size: 20px;
+            padding: 20px;
+            margin: 5px;
+            width: 60px;
+            height: 60px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .calculator-button:hover {
+            background-color: #66FCF1;
+        }
+        .operation-button {
+            background-color: #66FCF1;
+            color: #0B0C10;
+        }
+        .operation-button:hover {
+            background-color: #45A29E;
+        }
+        .clear-button {
+            background-color: #cf1124;
+            color: #f1f1f1;
+        }
+        .clear-button:hover {
+            background-color: #f44336;
+        }
+        .equal-button {
+            background-color: #66FCF1;
+            color: #0B0C10;
+        }
+        .error-message {
+            color: #cf1124;
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="calculator-container">
+        <input type="text" id="calculatorScreen" class="calculator-screen" readonly>
+        <div class="row">
+            <div class="col-3"><button class="calculator-button" onclick="appendInput('7')">7</button></div>
+            <div class="col-3"><button class="calculator-button" onclick="appendInput('8')">8</button></div>
+            <div class="col-3"><button class="calculator-button" onclick="appendInput('9')">9</button></div>
+            <div class="col-3"><button class="calculator-button operation-button" onclick="appendInput('/')">÷</button></div>
+        </div>
+        <div class="row">
+            <div class="col-3"><button class="calculator-button" onclick="appendInput('4')">4</button></div>
+            <div class="col-3"><button class="calculator-button" onclick="appendInput('5')">5</button></div>
+            <div class="col-3"><button class="calculator-button" onclick="appendInput('6')">6</button></div>
+            <div class="col-3"><button class="calculator-button operation-button" onclick="appendInput('*')">×</button></div>
+        </div>
+        <div class="row">
+            <div class="col-3"><button class="calculator-button" onclick="appendInput('1')">1</button></div>
+            <div class="col-3"><button class="calculator-button" onclick="appendInput('2')">2</button></div>
+            <div class="col-3"><button class="calculator-button" onclick="appendInput('3')">3</button></div>
+            <div class="col-3"><button class="calculator-button operation-button" onclick="appendInput('-')">-</button></div>
+        </div>
+        <div class="row">
+            <div class="col-3"><button class="calculator-button" onclick="appendInput('0')">0</button></div>
+            <div class="col-3"><button class="calculator-button" onclick="appendInput('.')">.</button></div>
+            <div class="col-3"><button class="calculator-button equal-button" onclick="calculateResult()">=</button></div>
+            <div class="col-3"><button class="calculator-button operation-button" onclick="appendInput('+')">+</button></div>
+        </div>
+        <div class="row">
+            <div class="col-6"><button class="calculator-button" onclick="appendInput('(')">(</button></div>
+            <div class="col-6"><button class="calculator-button" onclick="appendInput(')')">)</button></div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <button class="calculator-button clear-button" onclick="clearScreen()">C</button>
+            </div>
+        </div>
+        <p id="errorMessage" class="error-message"></p>
+    </div>
+
+    <script>
+        let expression = '';
+
+        // Append input to the current expression
+        function appendInput(input) {
+            expression += input;
+            updateScreen();
+        }
+
+        // Update the calculator screen
+        function updateScreen() {
+            document.getElementById('calculatorScreen').value = expression;
+            document.getElementById('errorMessage').textContent = '';
+        }
+
+        // Calculate the result
+        function calculateResult() {
+            try {
+                if (expression.trim() === '') return;
+                // Evaluate the expression using JavaScript's eval()
+                let result = eval(expression);
+                expression = result.toString();
+                updateScreen();
+            } catch (error) {
+                displayError('Invalid Expression');
+            }
+        }
+
+        // Clear the calculator screen
+        function clearScreen() {
+            expression = '';
+            updateScreen();
+        }
+
+        // Display error message
+        function displayError(message) {
+            document.getElementById('errorMessage').textContent = message;
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+        body {
+            background-color: #1a1a1a;  /* Dark background for the entire page */
+            color: #f1f1f1;  /* Light text for contrast */
+            font-family: "Roboto", sans-serif;
+        }
+        .calculator-container {
+            background-color: #121212;  /* Dark background for the calculator container */
+            padding-top: 20px;
+            padding-bottom: 20px;
+            border-radius: 10px;
+        }
+        .calculator-heading {
+            color: #66FCF1;  /* Light cyan for the heading */
+            font-size: 48px;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .input-label {
+            color: #7b8794;  /* Lighter gray for labels */
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .user-input {
+            height: 40px;
+            width: 100%;
+            border: 1px solid #cbd2d9;  /* Light border */
+            border-radius: 4px;
+            padding-left: 12px;
+            background-color: #333333;  /* Darker background for input fields */
+            color: #f1f1f1;  /* Light text inside input fields */
+        }
+        .calculate-button {
+            background-color: #66FCF1;  /* Light cyan for the button */
+            color: #0B0C10;  /* Dark text for button */
+            font-size: 18px;
+            border-radius: 4px;
+            width: 100%;
+            padding: 12px;
+            text-transform: uppercase;
+        }
+        .calculate-button:hover {
+            background-color: #45A29E;  /* Slightly darker cyan for hover effect */
+        }
+        .error-message {
+            color: #cf1124;  /* Red color for error messages */
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="calculator-container">
+        <h1 class="calculator-heading">Fixed Deposit (FD) Calculator</h1>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-6 mb-4">
+                    <p class="input-label mb-2">Principal Amount (P)</p>
+                    <input type="text" class="user-input" id="principalAmount" placeholder="Enter principal amount" />
+                </div>
+                <div class="col-12 col-md-6 mb-4">
+                    <p class="input-label mb-2">Interest Rate (r) (%)</p>
+                    <input type="text" class="user-input" id="interestRate" placeholder="Enter interest rate" />
+                </div>
+                <div class="col-12 col-md-6 mb-4">
+                    <p class="input-label mb-2">Time Period (t) (years)</p>
+                    <input type="text" class="user-input" id="timePeriod" placeholder="Enter time period in years" />
+                </div>
+                <div class="col-12 col-md-6 mb-4">
+                    <p class="input-label mb-2">Compounding Frequency (n)</p>
+                    <input type="text" class="user-input" id="compoundingFrequency" placeholder="Enter number of times interest is compounded per year" />
+                </div>
+                <div class="col-12 col-md-6 mb-4">
+                    <p class="input-label mb-2">Final Amount (A)</p>
+                    <input type="text" class="user-input" id="finalAmountResult" readonly />
+                </div>
+                <div class="col-12 text-center mt-4">
+                    <button class="btn calculate-button" onclick="calculateFD()">CALCULATE FINAL AMOUNT</button>
+                    <p class="error-message" id="errorMessage"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculateFD() {
+            let principalAmount = parseFloat(document.getElementById("principalAmount").value);
+            let interestRate = parseFloat(document.getElementById("interestRate").value) / 100;
+            let timePeriod = parseFloat(document.getElementById("timePeriod").value);
+            let compoundingFrequency = parseFloat(document.getElementById("compoundingFrequency").value);
+            let finalAmountResult = document.getElementById("finalAmountResult");
+            let errorMessage = document.getElementById("errorMessage");
+
+            // Validate inputs
+            if (isNaN(principalAmount) || principalAmount <= 0) {
+                errorMessage.textContent = "Please enter a valid positive number for principal amount.";
+                finalAmountResult.value = "";
+                return;
+            }
+            if (isNaN(interestRate) || interestRate <= 0) {
+                errorMessage.textContent = "Please enter a valid positive number for interest rate.";
+                finalAmountResult.value = "";
+                return;
+            }
+            if (isNaN(timePeriod) || timePeriod <= 0) {
+                errorMessage.textContent = "Please enter a valid positive number for time period.";
+                finalAmountResult.value = "";
+                return;
+            }
+            if (isNaN(compoundingFrequency) || compoundingFrequency <= 0) {
+                errorMessage.textContent = "Please enter a valid positive number for compounding frequency.";
+                finalAmountResult.value = "";
+                return;
+            }
+
+            // Clear any previous error message
+            errorMessage.textContent = "";
+
+            // Calculate final amount (A = P * (1 + r/n)^(n*t))
+            let finalAmount = principalAmount * Math.pow((1 + (interestRate / compoundingFrequency)), compoundingFrequency * timePeriod);
+            finalAmountResult.value = finalAmount.toFixed(2);  // Display result
+        }
+    </script>
+</body>
+</html>

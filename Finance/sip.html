@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+        body {
+            background-color: #1a1a1a;  /* Dark background for the entire page */
+            color: #f1f1f1;  /* Light text for contrast */
+            font-family: "Roboto", sans-serif;
+        }
+        .calculator-container {
+            background-color: #121212;  /* Dark background for the calculator container */
+            padding-top: 20px;
+            padding-bottom: 20px;
+            border-radius: 10px;
+        }
+        .calculator-heading {
+            color: #66FCF1;  /* Light cyan for the heading */
+            font-size: 48px;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .input-label {
+            color: #7b8794;  /* Lighter gray for labels */
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .user-input {
+            height: 40px;
+            width: 100%;
+            border: 1px solid #cbd2d9;  /* Light border */
+            border-radius: 4px;
+            padding-left: 12px;
+            background-color: #333333;  /* Darker background for input fields */
+            color: #f1f1f1;  /* Light text inside input fields */
+        }
+        .calculate-button {
+            background-color: #66FCF1;  /* Light cyan for the button */
+            color: #0B0C10;  /* Dark text for button */
+            font-size: 18px;
+            border-radius: 4px;
+            width: 100%;
+            padding: 12px;
+            text-transform: uppercase;
+        }
+        .calculate-button:hover {
+            background-color: #45A29E;  /* Slightly darker cyan for hover effect */
+        }
+        .error-message {
+            color: #cf1124;  /* Red color for error messages */
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="calculator-container">
+        <h1 class="calculator-heading">SIP Calculator</h1>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-6 mb-4">
+                    <p class="input-label mb-2">Monthly Investment (P)</p>
+                    <input type="text" class="user-input" id="monthlyInvestment" placeholder="Enter monthly investment" />
+                </div>
+                <div class="col-12 col-md-6 mb-4">
+                    <p class="input-label mb-2">Annual Interest Rate (r) (%)</p>
+                    <input type="text" class="user-input" id="interestRate" placeholder="Enter annual interest rate" />
+                </div>
+                <div class="col-12 col-md-6 mb-4">
+                    <p class="input-label mb-2">Investment Duration (t) (years)</p>
+                    <input type="text" class="user-input" id="duration" placeholder="Enter investment duration in years" />
+                </div>
+                <div class="col-12 col-md-6 mb-4">
+                    <p class="input-label mb-2">Maturity Amount (M)</p>
+                    <input type="text" class="user-input" id="maturityAmountResult" readonly />
+                </div>
+                <div class="col-12 text-center mt-4">
+                    <button class="btn calculate-button" onclick="calculateSIP()">CALCULATE</button>
+                    <p class="error-message" id="errorMessage"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculateSIP() {
+            let monthlyInvestment = parseFloat(document.getElementById("monthlyInvestment").value);
+            let interestRate = parseFloat(document.getElementById("interestRate").value) / 100;
+            let duration = parseFloat(document.getElementById("duration").value);
+            let maturityAmountResult = document.getElementById("maturityAmountResult");
+            let errorMessage = document.getElementById("errorMessage");
+
+            // Validate inputs
+            if (isNaN(monthlyInvestment) || monthlyInvestment <= 0) {
+                errorMessage.textContent = "Please enter a valid positive number for monthly investment.";
+                maturityAmountResult.value = "";
+                return;
+            }
+            if (isNaN(interestRate) || interestRate <= 0) {
+                errorMessage.textContent = "Please enter a valid positive number for interest rate.";
+                maturityAmountResult.value = "";
+                return;
+            }
+            if (isNaN(duration) || duration <= 0) {
+                errorMessage.textContent = "Please enter a valid positive number for duration.";
+                maturityAmountResult.value = "";
+                return;
+            }
+
+            // Clear any previous error message
+            errorMessage.textContent = "";
+
+            // Convert annual rate to monthly rate
+            let monthlyRate = interestRate / 12;
+
+            // Convert duration to months
+            let months = duration * 12;
+
+            // Calculate maturity amount using SIP formula
+            let maturityAmount = monthlyInvestment * (Math.pow(1 + monthlyRate, months) - 1) / monthlyRate * (1 + monthlyRate);
+
+            // Display result
+            maturityAmountResult.value = maturityAmount.toFixed(2);  // Maturity amount result
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+        body {
+            background-color: #1a1a1a;
+            color: #f1f1f1;
+            font-family: "Roboto", sans-serif;
+        }
+        .calculator-container {
+            background-color: #121212;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .calculator-heading {
+            color: #66FCF1;
+            font-size: 36px;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .input-label {
+            color: #7b8794;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .user-input {
+            height: 40px;
+            width: 100%;
+            border: 1px solid #cbd2d9;
+            border-radius: 4px;
+            padding-left: 12px;
+            background-color: #333333;
+            color: #f1f1f1;
+        }
+        .calculate-button {
+            background-color: #66FCF1;
+            color: #0B0C10;
+            font-size: 18px;
+            border-radius: 4px;
+            width: 100%;
+        }
+        .calculate-button:hover {
+            background-color: #45A29E;
+        }
+        .error-message {
+            color: #cf1124;
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="calculator-container">
+        <h1 class="calculator-heading">Area Calculator</h1>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 mb-4">
+                    <p class="input-label mb-2">Select Shape</p>
+                    <select class="user-input" id="shape" onchange="toggleInputs()">
+                        <option value="">-- Select Shape --</option>
+                        <option value="square">Square</option>
+                        <option value="rectangle">Rectangle</option>
+                        <option value="circle">Circle</option>
+                        <option value="ellipse">Ellipse</option>
+                        <option value="triangleEquilateral">Equilateral Triangle</option>
+                        <option value="triangleRight">Right Triangle</option>
+                        <option value="parallelogram">Parallelogram</option>
+                        <option value="trapezoid">Trapezoid</option>
+                        <option value="sector">Sector of a Circle</option>
+                        <option value="rhombus">Rhombus</option>
+                    </select>
+                </div>
+                <div class="col-12 mb-4" id="inputSquare" style="display: none;">
+                    <p class="input-label mb-2">Side Length (m)</p>
+                    <input type="text" class="user-input" id="squareSide" placeholder="Enter side length in meters" />
+                </div>
+                <div class="col-12 mb-4" id="inputRectangle" style="display: none;">
+                    <p class="input-label mb-2">Length (m)</p>
+                    <input type="text" class="user-input" id="rectangleLength" placeholder="Enter length in meters" />
+                    <p class="input-label mb-2">Width (m)</p>
+                    <input type="text" class="user-input" id="rectangleWidth" placeholder="Enter width in meters" />
+                </div>
+                <div class="col-12 mb-4" id="inputCircle" style="display: none;">
+                    <p class="input-label mb-2">Radius (m)</p>
+                    <input type="text" class="user-input" id="circleRadius" placeholder="Enter radius in meters" />
+                </div>
+                <div class="col-12 mb-4" id="inputEllipse" style="display: none;">
+                    <p class="input-label mb-2">Semi-Major Axis (a) (m)</p>
+                    <input type="text" class="user-input" id="ellipseA" placeholder="Enter semi-major axis in meters" />
+                    <p class="input-label mb-2">Semi-Minor Axis (b) (m)</p>
+                    <input type="text" class="user-input" id="ellipseB" placeholder="Enter semi-minor axis in meters" />
+                </div>
+                <div class="col-12 mb-4" id="inputTriangleEquilateral" style="display: none;">
+                    <p class="input-label mb-2">Side Length (m)</p>
+                    <input type="text" class="user-input" id="triangleEquilateralSide" placeholder="Enter side length in meters" />
+                </div>
+                <div class="col-12 mb-4" id="inputTriangleRight" style="display: none;">
+                    <p class="input-label mb-2">Base (m)</p>
+                    <input type="text" class="user-input" id="triangleRightBase" placeholder="Enter base in meters" />
+                    <p class="input-label mb-2">Height (m)</p>
+                    <input type="text" class="user-input" id="triangleRightHeight" placeholder="Enter height in meters" />
+                </div>
+                <div class="col-12 mb-4" id="inputParallelogram" style="display: none;">
+                    <p class="input-label mb-2">Base (m)</p>
+                    <input type="text" class="user-input" id="parallelogramBase" placeholder="Enter base in meters" />
+                    <p class="input-label mb-2">Height (m)</p>
+                    <input type="text" class="user-input" id="parallelogramHeight" placeholder="Enter height in meters" />
+                </div>
+                <div class="col-12 mb-4" id="inputTrapezoid" style="display: none;">
+                    <p class="input-label mb-2">Base 1 (b1) (m)</p>
+                    <input type="text" class="user-input" id="trapezoidBase1" placeholder="Enter base 1 in meters" />
+                    <p class="input-label mb-2">Base 2 (b2) (m)</p>
+                    <input type="text" class="user-input" id="trapezoidBase2" placeholder="Enter base 2 in meters" />
+                    <p class="input-label mb-2">Height (h) (m)</p>
+                    <input type="text" class="user-input" id="trapezoidHeight" placeholder="Enter height in meters" />
+                </div>
+                <div class="col-12 mb-4" id="inputSector" style="display: none;">
+                    <p class="input-label mb-2">Radius (m)</p>
+                    <input type="text" class="user-input" id="sectorRadius" placeholder="Enter radius in meters" />
+                    <p class="input-label mb-2">Angle (θ) (degrees)</p>
+                    <input type="text" class="user-input" id="sectorAngle" placeholder="Enter angle in degrees" />
+                </div>
+                <div class="col-12 mb-4" id="inputRhombus" style="display: none;">
+                    <p class="input-label mb-2">Diagonal 1 (d1) (m)</p>
+                    <input type="text" class="user-input" id="rhombusD1" placeholder="Enter diagonal 1 in meters" />
+                    <p class="input-label mb-2">Diagonal 2 (d2) (m)</p>
+                    <input type="text" class="user-input" id="rhombusD2" placeholder="Enter diagonal 2 in meters" />
+                </div>
+                <div class="col-12 mb-4">
+                    <p class="input-label mb-2">Area (m²)</p>
+                    <input type="text" class="user-input" id="areaResult" readonly />
+                </div>
+                <div class="col-12 text-center mt-4">
+                    <button class="btn calculate-button" onclick="calculateArea()">CALCULATE</button>
+                    <p class="error-message" id="errorMessage"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleInputs() {
+            const shape = document.getElementById("shape").value;
+            const inputs = [
+                "inputSquare", "inputRectangle", "inputCircle", "inputEllipse",
+                "inputTriangleEquilateral", "inputTriangleRight", "inputParallelogram",
+                "inputTrapezoid", "inputSector", "inputRhombus"
+            ];
+            
+            inputs.forEach(id => document.getElementById(id).style.display = "none");
+            document.getElementById("areaResult").value = "";
+            document.getElementById("errorMessage").textContent = "";
+
+            if (shape) {
+                document.getElementById("input" + shape.charAt(0).toUpperCase() + shape.slice(1)).style.display = "block";
+            }
+        }
+
+        function calculateArea() {
+            const shape = document.getElementById("shape").value;
+            let area;
+            let errorMessage = document.getElementById("errorMessage");
+            errorMessage.textContent = ""; // Clear previous error messages
+
+            switch (shape) {
+                case "square":
+                    const squareSide = parseFloat(document.getElementById("squareSide").value);
+                    if (isNaN(squareSide) || squareSide <= 0) {
+                        errorMessage.textContent = "Please enter a valid positive number for side length.";
+                        return;
+                    }
+                    area = Math.pow(squareSide, 2);
+                    break;
+
+                case "rectangle":
+                    const rectangleLength = parseFloat(document.getElementById("rectangleLength").value);
+                    const rectangleWidth = parseFloat(document.getElementById("rectangleWidth").value);
+                    if (isNaN(rectangleLength) || rectangleLength <= 0 || isNaN(rectangleWidth) || rectangleWidth <= 0) {
+                        errorMessage.textContent = "Please enter valid positive numbers for length and width.";
+                        return;
+                    }
+                    area = rectangleLength * rectangleWidth;
+                    break;
+
+                case "circle":
+                    const circleRadius = parseFloat(document.getElementById("circleRadius").value);
+                    if (isNaN(circleRadius) || circleRadius <= 0) {
+                        errorMessage.textContent = "Please enter a valid positive number for radius.";
+                        return;
+                    }
+                    area = Math.PI * Math.pow(circleRadius, 2);
+                    break;
+
+                case "ellipse":
+                    const ellipseA = parseFloat(document.getElementById("ellipseA").value);
+                    const ellipseB = parseFloat(document.getElementById("ellipseB").value);
+                    if (isNaN(ellipseA) || ellipseA <= 0 || isNaN(ellipseB) || ellipseB <= 0) {
+                        errorMessage.textContent = "Please enter valid positive numbers for semi-major and semi-minor axes.";
+                        return;
+                    }
+                    area = Math.PI * ellipseA * ellipseB;
+                    break;
+
+                case "triangleEquilateral":
+                    const triangleEquilateralSide = parseFloat(document.getElementById("triangleEquilateralSide").value);
+                    if (isNaN(triangleEquilateralSide) || triangleEquilateralSide <= 0) {
+                        errorMessage.textContent = "Please enter a valid positive number for side length.";
+                        return;
+                    }
+                    area = (Math.pow(triangleEquilateralSide, 2) * Math.sqrt(3)) / 4;
+                    break;
+
+                case "triangleRight":
+                    const triangleRightBase = parseFloat(document.getElementById("triangleRightBase").value);
+                    const triangleRightHeight = parseFloat(document.getElementById("triangleRightHeight").value);
+                    if (isNaN(triangleRightBase) || triangleRightBase <= 0 || isNaN(triangleRightHeight) || triangleRightHeight <= 0) {
+                        errorMessage.textContent = "Please enter valid positive numbers for base and height.";
+                        return;
+                    }
+                    area = (triangleRightBase * triangleRightHeight) / 2;
+                    break;
+
+                case "parallelogram":
+                    const parallelogramBase = parseFloat(document.getElementById("parallelogramBase").value);
+                    const parallelogramHeight = parseFloat(document.getElementById("parallelogramHeight").value);
+                    if (isNaN(parallelogramBase) || parallelogramBase <= 0 || isNaN(parallelogramHeight) || parallelogramHeight <= 0) {
+                        errorMessage.textContent = "Please enter valid positive numbers for base and height.";
+                        return;
+                    }
+                    area = parallelogramBase * parallelogramHeight;
+                    break;
+
+                case "trapezoid":
+                    const trapezoidBase1 = parseFloat(document.getElementById("trapezoidBase1").value);
+                    const trapezoidBase2 = parseFloat(document.getElementById("trapezoidBase2").value);
+                    const trapezoidHeight = parseFloat(document.getElementById("trapezoidHeight").value);
+                    if (isNaN(trapezoidBase1) || trapezoidBase1 <= 0 || isNaN(trapezoidBase2) || trapezoidBase2 <= 0 || isNaN(trapezoidHeight) || trapezoidHeight <= 0) {
+                        errorMessage.textContent = "Please enter valid positive numbers for the bases and height.";
+                        return;
+                    }
+                    area = ((trapezoidBase1 + trapezoidBase2) * trapezoidHeight) / 2;
+                    break;
+
+                case "sector":
+                    const sectorRadius = parseFloat(document.getElementById("sectorRadius").value);
+                    const sectorAngle = parseFloat(document.getElementById("sectorAngle").value);
+                    if (isNaN(sectorRadius) || sectorRadius <= 0 || isNaN(sectorAngle) || sectorAngle <= 0 || sectorAngle > 360) {
+                        errorMessage.textContent = "Please enter valid positive numbers for radius and angle.";
+                        return;
+                    }
+                    area = (sectorAngle / 360) * Math.PI * Math.pow(sectorRadius, 2);
+                    break;
+
+                case "rhombus":
+                    const rhombusD1 = parseFloat(document.getElementById("rhombusD1").value);
+                    const rhombusD2 = parseFloat(document.getElementById("rhombusD2").value);
+                    if (isNaN(rhombusD1) || rhombusD1 <= 0 || isNaN(rhombusD2) || rhombusD2 <= 0) {
+                        errorMessage.textContent = "Please enter valid positive numbers for diagonals.";
+                        return;
+                    }
+                    area = (rhombusD1 * rhombusD2) / 2;
+                    break;
+
+                default:
+                    errorMessage.textContent = "Please select a shape.";
+                    return;
+            }
+
+            document.getElementById("areaResult").value = area.toFixed(2) + " m²";
+        }
+    </script>
+</body>
+</html>

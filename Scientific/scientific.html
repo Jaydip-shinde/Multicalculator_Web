@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+        /* Body background and text color */
+        body {
+            background-color: #1a1a1a;
+            color: #f1f1f1;
+            font-family: "Roboto", sans-serif;
+        }
+
+        /* Calculator container with dark background */
+        .calculator-container {
+            background-color: #121212;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            border-radius: 10px;
+        }
+
+        /* Heading color */
+        .calculator-heading {
+            color: #66FCF1;
+            font-size: 48px;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Input label style */
+        .input-label {
+            color: #7b8794;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        /* Input fields with dark background and light text */
+        .user-input {
+            height: 40px;
+            width: 100%;
+            border: 1px solid #cbd2d9;
+            border-radius: 4px;
+            padding-left: 12px;
+            background-color: #333333;
+            color: #f1f1f1;
+        }
+
+        /* Calculate button style */
+        .calculate-button {
+            background-color: #66FCF1;
+            color: #0B0C10;
+            font-size: 18px;
+            border-radius: 4px;
+            width: 100%;
+            padding: 12px;
+            text-transform: uppercase;
+        }
+
+        /* Hover effect for the calculate button */
+        .calculate-button:hover {
+            background-color: #45A29E;
+        }
+
+        /* Error message color */
+        .error-message {
+            color: #cf1124;
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        /* Button for scientific operations */
+        .operation-button {
+            background-color: #45A29E;
+            color: #0B0C10;
+            font-size: 18px;
+            border-radius: 4px;
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="calculator-container">
+        <h1 class="calculator-heading">Scientific Calculator</h1>
+        <div class="container">
+            <div class="row">
+                <!-- First Number Input -->
+                <div class="col-12 col-md-6 mb-4">
+                    <p class="input-label mb-2">First Number</p>
+                    <input type="text" class="user-input" id="firstNumber" placeholder="Enter the first number..." />
+                </div>
+
+                <!-- Second Number Input (for operations like power, addition, etc.) -->
+                <div class="col-12 col-md-6 mb-4" id="secondNumberContainer">
+                    <p class="input-label mb-2">Second Number (if applicable)</p>
+                    <input type="text" class="user-input" id="secondNumber" placeholder="Enter the second number..." />
+                </div>
+
+                <!-- Select Operation -->
+                <div class="col-12 col-md-6 mb-4">
+                    <p class="input-label mb-2">Operation</p>
+                    <select class="user-input" id="operation" onChange="toggleSecondNumber()">
+                        <option value="log">Logarithm (log10(x))</option>
+                        <option value="sqrt">Square Root (√x)</option>
+                        <option value="power">Power (x^y)</option>
+                        <option value="sin">Sine (sin(x))</option>
+                        <option value="cos">Cosine (cos(x))</option>
+                        <option value="tan">Tangent (tan(x))</option>
+                    </select>
+                </div>
+
+                <!-- Result Input -->
+                <div class="col-12 col-md-6 mb-4">
+                    <p class="input-label mb-2">Result</p>
+                    <input type="text" class="user-input" id="result" readonly />
+                </div>
+
+                <!-- Error Message -->
+                <div class="col-12 text-center mt-4">
+                    <p class="error-message" id="errorMessage"></p>
+                </div>
+
+                <!-- Calculate Button -->
+                <div class="col-12 text-center mt-4">
+                    <button class="btn calculate-button" id="calculateButton" onClick="calculate()">CALCULATE</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to toggle the second number input field based on operation type
+        function toggleSecondNumber() {
+            const operation = document.getElementById("operation").value;
+            const secondNumberContainer = document.getElementById("secondNumberContainer");
+            if (["sqrt", "log", "sin", "cos", "tan"].includes(operation)) {
+                secondNumberContainer.style.display = "none";
+            } else {
+                secondNumberContainer.style.display = "block";
+            }
+        }
+
+        // Function to perform the calculations
+        function calculate() {
+            let firstNumber = parseFloat(document.getElementById("firstNumber").value);
+            let secondNumber = parseFloat(document.getElementById("secondNumber").value);
+            let operation = document.getElementById("operation").value;
+            let resultField = document.getElementById("result");
+            let errorMessage = document.getElementById("errorMessage");
+            
+            // Validate inputs
+            if (isNaN(firstNumber) || (["power"].includes(operation) && isNaN(secondNumber))) {
+                errorMessage.textContent = "Please enter valid numbers in the required fields.";
+                resultField.value = "";
+                return;
+            } else {
+                errorMessage.textContent = "";
+            }
+            
+            let result;
+            switch (operation) {
+                case "power":
+                    result = Math.pow(firstNumber, secondNumber);
+                    break;
+                case "sqrt":
+                    if (firstNumber < 0) {
+                        errorMessage.textContent = "Square root of a negative number is not defined.";
+                        resultField.value = "";
+                        return;
+                    }
+                    result = Math.sqrt(firstNumber);
+                    break;
+                case "log":
+                    if (firstNumber <= 0) {
+                        errorMessage.textContent = "Logarithm of zero or a negative number is not defined.";
+                        resultField.value = "";
+                        return;
+                    }
+                    result = Math.log10(firstNumber);
+                    break;
+                case "sin":
+                    result = Math.sin(firstNumber * Math.PI / 180); // Convert to radians
+                    break;
+                case "cos":
+                    result = Math.cos(firstNumber * Math.PI / 180); // Convert to radians
+                    break;
+                case "tan":
+                    result = Math.tan(firstNumber * Math.PI / 180); // Convert to radians
+                    break;
+                default:
+                    result = "Invalid operation";
+            }
+            
+            resultField.value = result;
+        }
+    </script>
+</body>
+</html>

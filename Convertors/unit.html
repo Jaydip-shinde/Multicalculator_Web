@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Converter</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #f1f1f1;
+            font-family: "Roboto", sans-serif;
+        }
+        .container {
+            margin-top: 50px;
+            max-width: 500px;
+        }
+        .unit-converter {
+            background-color: #121212;
+            padding: 30px;
+            border-radius: 10px;
+        }
+        .form-control {
+            background-color: #333;
+            border: 1px solid #555;
+            color: #fff;
+        }
+        .btn {
+            background-color: #66FCF1;
+            color: #0B0C10;
+        }
+        .btn:hover {
+            background-color: #45A29E;
+        }
+        .error-message {
+            color: #cf1124;
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 10px;
+            text-align: center;
+        }
+        #result {
+            background-color: #333;
+            color: #66FCF1;
+            border: 1px solid #555;
+            padding: 10px;
+            font-size: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="unit-converter">
+            <h2 class="text-center">Unit Converter</h2>
+            <div class="form-group">
+                <label for="category">Select Unit Category</label>
+                <select class="form-control" id="category" onchange="updateUnits()">
+                    <option value="length">Length</option>
+                    <option value="weight">Weight</option>
+                    <option value="temperature">Temperature</option>
+                    <option value="volume">Volume</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="toUnit">From Unit</label>
+                <select class="form-control" id="toUnit"></select>
+            </div>
+            <div class="form-group">
+                <label for="fromUnit">To Unit</label>
+                <select class="form-control" id="fromUnit"></select>
+            </div>
+            
+            <div class="form-group">
+                <label for="amount">Amount</label>
+                <input type="number" id="amount" class="form-control" placeholder="Enter amount" />
+            </div>
+            <button class="btn btn-block" onclick="convertUnit()">Convert</button>
+
+            <div class="error-message" id="errorMessage"></div>
+
+            <div class="form-group mt-3">
+                <label for="result">Converted Amount</label>
+                <input type="text" id="result" class="form-control" readonly />
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let unitCategories = {
+            length: {
+                units: ["Meter", "Kilometer", "Mile", "Yard", "Foot", "Inch"],
+                conversion: {
+                    "Meter": 1,
+                    "Kilometer": 0.001,
+                    "Mile": 0.000621371,
+                    "Yard": 1.09361,
+                    "Foot": 3.28084,
+                    "Inch": 39.3701
+                }
+            },
+            weight: {
+                units: ["Gram", "Kilogram", "Pound", "Ounce", "Ton"],
+                conversion: {
+                    "Gram": 1,
+                    "Kilogram": 0.001,
+                    "Pound": 0.00220462,
+                    "Ounce": 0.035274,
+                    "Ton": 1e-6
+                }
+            },
+            temperature: {
+                units: ["Celsius", "Fahrenheit", "Kelvin"],
+                conversion: {
+                    "Celsius": (value) => value,
+                    "Fahrenheit": (value) => (value * 9/5) + 32,
+                    "Kelvin": (value) => value + 273.15
+                }
+            },
+            volume: {
+                units: ["Liter", "Milliliter", "Gallon", "Cubic Meter", "Cubic Inch"],
+                conversion: {
+                    "Liter": 1,
+                    "Milliliter": 1000,
+                    "Gallon": 0.264172,
+                    "Cubic Meter": 0.001,
+                    "Cubic Inch": 61.0237
+                }
+            }
+        };
+
+        let currentCategory = "length"; // Default category
+        let unitData = unitCategories[currentCategory];
+
+        // Fetch and update units based on category
+        function updateUnits() {
+            currentCategory = document.getElementById("category").value;
+            unitData = unitCategories[currentCategory];
+            
+            const fromUnitSelect = document.getElementById('fromUnit');
+            const toUnitSelect = document.getElementById('toUnit');
+            fromUnitSelect.innerHTML = "";
+            toUnitSelect.innerHTML = "";
+
+            unitData.units.forEach(unit => {
+                const option1 = document.createElement('option');
+                option1.value = unit;
+                option1.textContent = unit;
+                fromUnitSelect.appendChild(option1);
+
+                const option2 = document.createElement('option');
+                option2.value = unit;
+                option2.textContent = unit;
+                toUnitSelect.appendChild(option2);
+            });
+
+            fromUnitSelect.value = unitData.units[0];
+            toUnitSelect.value = unitData.units[1];
+        }
+
+        // Function to convert unit
+        function convertUnit() {
+            const fromUnit = document.getElementById('fromUnit').value;
+            const toUnit = document.getElementById('toUnit').value;
+            const amount = parseFloat(document.getElementById('amount').value);
+            const resultField = document.getElementById('result');
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.textContent = ''; // Clear any previous error messages
+
+            // Validate input
+            if (isNaN(amount) || amount <= 0) {
+                errorMessage.textContent = 'Please enter a valid amount.';
+                resultField.value = '';
+                return;
+            }
+
+            if (currentCategory === 'temperature') {
+                // Temperature conversion with formulas
+                resultField.value = temperatureConversion(fromUnit, toUnit, amount).toFixed(2);
+            } else {
+                // Handle unit conversions for other categories
+                const fromUnitConversion = unitData.conversion[fromUnit];
+                const toUnitConversion = unitData.conversion[toUnit];
+
+                if (typeof fromUnitConversion === 'function') {
+                    resultField.value = (fromUnitConversion(amount) - unitData.conversion ).toFixed(2);
+                } else {
+                    const convertedAmount = (amount * fromUnitConversion) / toUnitConversion;
+                    resultField.value = convertedAmount.toFixed(2);
+                }
+            }
+        }
+
+        // Temperature conversion formula
+        function temperatureConversion(from, to, amount) {
+            if (from === "Celsius" && to === "Fahrenheit") {
+                return (amount * 9/5) + 32;
+            } else if (from === "Celsius" && to === "Kelvin") {
+                return amount + 273.15;
+            } else if (from === "Fahrenheit" && to === "Celsius") {
+                return (amount - 32) * 5/9;
+            } else if (from === "Fahrenheit" && to === "Kelvin") {
+                return (amount - 32) * 5/9 + 273.15;
+            } else if (from === "Kelvin" && to === "Celsius") {
+                return amount - 273.15;
+            } else if (from === "Kelvin" && to === "Fahrenheit") {
+                return (amount - 273.15) * 9/5 + 32;
+            } else {
+                return amount; // Same unit
+            }
+        }
+
+        // Initialize with default category units
+        updateUnits();
+    </script>
+</body>
+</html>
